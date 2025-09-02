@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Utshob — Premium Event Management</title>
+  <meta name="description" content="Utshob: Modern event management platform — discover, plan, and host events with premium experience.">
+  <link rel="icon" href="icon.jpg">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Premium palette */
+      --bg-1: #0b1020;    /* deep night */
+      --bg-2: #151b2f;    /* slate */
+      --txt:  #e6e8f2;    /* soft white */
+      --muted:#a6accd;
+      --primary: #8b5cf6; /* violet */
+      --accent:  #06b6d4; /* cyan */
+      --rose:    #ef5da8; /* magenta */
+      --gold:    #f5b64c; /* premium gold */
+      --success: #22c55e;
+      --danger:  #ef4444;
+
+      --glass-bg: rgba(255,255,255,0.06);
+      --glass-brd: rgba(255,255,255,0.15);
+      --shadow-1: 0 10px 30px rgba(0,0,0,.35);
+      --shadow-2: 0 6px 20px rgba(0,0,0,.25);
+    }
+
+    html, body { height: 100%; }
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--txt);
+      background:
+        radial-gradient(1200px 800px at 20% -20%, rgba(139,92,246,.25), transparent 50%),
+        radial-gradient(900px 600px at 110% 20%, rgba(6,182,212,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      scroll-behavior: smooth;
+    }
+
+    /* Premium Navbar */
+    .navbar-premium {
+      background: linear-gradient(135deg, rgba(8,11,24,.9) 0%, rgba(21,27,47,.75) 60%) ;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-brd);
+      box-shadow: var(--shadow-2);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: .5px;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .brand-badge { font-size: .75rem; padding:.15rem .45rem; border-radius: .5rem; background: linear-gradient(135deg, var(--gold), #ffdca7); color:#3a2a00; font-weight:600; }
+
+    /* Gradient text utility */
+    .text-gradient {
+      background: linear-gradient(135deg, var(--gold), #ffdca7 25%, var(--accent) 75%, var(--primary));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative; padding-top: 7.5rem; padding-bottom: 5rem;
+    }
+    .hero .hero-card {
+      background: var(--glass-bg); border:1px solid var(--glass-brd); border-radius: 20px; box-shadow: var(--shadow-1);
+    }
+    .glow {
+      position: absolute; inset: -60px -60px auto auto; width: 220px; height: 220px; filter: blur(45px); opacity:.55;
+      background: radial-gradient(closest-side, rgba(139,92,246,.75), rgba(239,93,168,.5), transparent 70%);
+      pointer-events:none;
+    }
+
+    /* Cards */
+    .card-premium {
+      background: rgba(255,255,255,.04); border:1px solid var(--glass-brd); border-radius: 18px; transition: transform .25s ease, border-color .25s ease;
+    }
+    .card-premium:hover { transform: translateY(-4px); border-color: rgba(255,255,255,.32); }
+
+    /* Floating Action Buttons */
+    .fab-group { position: fixed; right: 18px; bottom: 22px; z-index: 1050; display: flex; flex-direction: column; gap: .6rem; }
+    .fab { width: 56px; height: 56px; border-radius: 999px; display:inline-flex; align-items:center; justify-content:center; box-shadow: var(--shadow-2); border:1px solid var(--glass-brd); background: linear-gradient(135deg, rgba(139,92,246,.25), rgba(6,182,212,.25)); }
+    .fab:hover { filter: brightness(1.05); }
+
+    /* Scroll buttons */
+    .scroll-stack { position: fixed; left: 18px; bottom: 22px; z-index: 1050; display:flex; flex-direction:column; gap:.6rem; }
+    .scroll-btn { width: 46px; height: 46px; border-radius: 999px; display:flex; align-items:center; justify-content:center; border:1px solid var(--glass-brd); background: rgba(255,255,255,.06); }
+
+    /* Sections */
+    section.section { padding: 5rem 0; position: relative; }
+    section.section .section-title{ font-weight:700; letter-spacing:.2px; }
+
+    /* Search bar */
+    .search-wrap { background: rgba(255,255,255,.06); border: 1px solid var(--glass-brd); border-radius: 14px; }
+    .search-wrap .form-control, .search-wrap .form-select { background: transparent; color: var(--txt); border:0; }
+    .search-wrap .form-control::placeholder { color: var(--muted); }
+
+    /* Footer */
+    footer { background: rgba(0,0,0,.35); border-top: 1px solid var(--glass-brd); }
+    .footer-link { color: var(--muted); text-decoration:none; }
+    .footer-link:hover { color: var(--txt); }
+
+    /* Utilities */
+    .badge-soft { background: rgba(245,182,76,.15); color: var(--gold); border:1px solid rgba(245,182,76,.35); }
+
+    @media (max-width: 992px) {
+      .navbar .dropdown-menu { backdrop-filter: blur(10px); background: rgba(21,27,47,.9); border-color: var(--glass-brd); }
+    }
+  </style>
+</head>
+
+<body id="top">
+  <!-- NAVBAR -->
+  <nav id="mainNav" class="navbar navbar-expand-lg navbar-premium fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#top">
+        <i class="bi bi-stars text-warning"></i>
+        <span class="fs-5">Utshob</span>
+        <span class="brand-badge">Premium</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navContent">
+        <!-- Navbar Search -->
+        <form class="d-flex ms-lg-4 my-3 my-lg-0 flex-grow-1" role="search">
+          <div class="input-group search-wrap">
+            <span class="input-group-text bg-transparent border-0"><i class="bi bi-search"></i></span>
+            <input id="navSearch" class="form-control" type="search" placeholder="Search events, venues, organizers…" aria-label="Search">
+            <select class="form-select" aria-label="Category select">
+              <option selected value="">All</option>
+              <option value="tech">Tech</option>
+              <option value="music">Music</option>
+              <option value="sports">Sports</option>
+              <option value="culture">Culture</option>
+            </select>
+            <button class="btn btn-outline-warning" type="button" id="btnNavSearch">Search</button>
+          </div>
+        </form>
+
+        <ul class="navbar-nav ms-lg-4 mb-2 mb-lg-0 align-items-lg-center">
+          <!-- Each nav item has dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#features" data-bs-toggle="dropdown">Features</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#features">Overview</a></li>
+              <li><a class="dropdown-item" href="#events">Upcoming Events</a></li>
+              <li><a class="dropdown-item" href="#pricing">Pricing</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#events" data-bs-toggle="dropdown">Events</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#events">All Events</a></li>
+              <li><a class="dropdown-item" href="#venues">Venues</a></li>
+              <li><a class="dropdown-item" href="#organizers">Organizers</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#venues" data-bs-toggle="dropdown">Venues</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#venues">Venue List</a></li>
+              <li><a class="dropdown-item" href="#faq">FAQ</a></li>
+              <li><a class="dropdown-item" href="#contact">Contact</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#organizers" data-bs-toggle="dropdown">Organizers</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#organizers">Top Organizers</a></li>
+              <li><a class="dropdown-item" href="#features">Tools</a></li>
+              <li><a class="dropdown-item" href="#pricing">Plans</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#pricing" data-bs-toggle="dropdown">Pricing</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#pricing">Subscriptions</a></li>
+              <li><a class="dropdown-item" href="#pricing">One‑time</a></li>
+              <li><a class="dropdown-item" href="#faq">FAQ</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#more" data-bs-toggle="dropdown">More</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#contact">Contact</a></li>
+              <li><a class="dropdown-item" href="#faq">Help Center</a></li>
+              <li><a class="dropdown-item" href="#bottom">Footer</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="glow"></div>
+    <div class="container position-relative">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <div class="hero-card p-4 p-md-5">
+            <span class="badge badge-soft mb-2"><i class="bi bi-lightning-charge me-1"></i>Launch your next experience</span>
+            <h1 class="display-5 fw-bold mt-2">Host, Discover & Elevate Events with <span class="text-gradient">Utshob</span></h1>
+            <p class="lead text-secondary mt-3">Modern tools for tickets, venues, attendees, schedules and seamless check‑in — all in one elegant platform.</p>
+            <div class="d-flex gap-3 mt-3">
+              <a href="#events" class="btn btn-warning btn-lg"><i class="bi bi-calendar-event me-2"></i>Explore Events</a>
+              <a href="#features" class="btn btn-outline-light btn-lg"><i class="bi bi-stars me-2"></i>See Features</a>
+            </div>
+
+            <!-- Hero quick search -->
+            <div class="mt-4">
+              <div class="p-3 search-wrap">
+                <div class="row g-2">
+                  <div class="col-md-6"><input id="heroQuery" class="form-control form-control-lg" placeholder="Try: Tech meetup in Dhaka"></div>
+                  <div class="col-md-3"><select id="heroCategory" class="form-select form-select-lg"><option value="">All</option><option value="tech">Tech</option><option value="music">Music</option><option value="sports">Sports</option><option value="culture">Culture</option></select></div>
+                  <div class="col-md-3 d-grid"><button id="btnHeroSearch" class="btn btn-lg btn-primary"><i class="bi bi-search me-2"></i>Search</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="text-center text-lg-end">
+            <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=1600&auto=format&fit=crop" class="img-fluid rounded-4 shadow" alt="Concert crowd" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="content" class="mt-2">
+    <!-- FEATURES -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="row align-items-end mb-4">
+          <div class="col-md-8">
+            <h2 class="section-title">Powerful features for creators & communities</h2>
+            <p class="text-secondary">Ticketing, analytics, check‑in and more — designed with a premium, modern UI.</p>
+          </div>
+          <div class="col-md-4 text-md-end"><a href="#pricing" class="btn btn-outline-warning"><i class="bi bi-gem me-2"></i>See Plans</a></div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-sm-6 col-lg-3">
+            <div class="card card-premium h-100 p-4">
+              <div class="fs-3 mb-2"><i class="bi bi-ticket-perforated"></i></div>
+              <h5>Smart Ticketing</h5>
+              <p class="text-secondary small">Create tiers, set limits, manage early birds and promo codes seamlessly.</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card card-premium h-100 p-4">
+              <div class="fs-3 mb-2"><i class="bi bi-qr-code-scan"></i></div>
+              <h5>Instant Check‑in</h5>
+              <p class="text-secondary small">Scan QR codes, track attendance live and prevent duplicate entries.</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card card-premium h-100 p-4">
+              <div class="fs-3 mb-2"><i class="bi bi-graph-up-arrow"></i></div>
+              <h5>Sales Analytics</h5>
+              <p class="text-secondary small">Monitor conversions, channels and revenue with elegant dashboards.</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card card-premium h-100 p-4">
+              <div class="fs-3 mb-2"><i class="bi bi-shield-lock"></i></div>
+              <h5>Secure Payments</h5>
+              <p class="text-secondary small">PCI‑compliant flows and safe checkout built on modern standards.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="events" class="section">
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h2 class="section-title mb-0">Upcoming events</h2>
+          <div>
+            <span class="text-secondary me-2">Filter:</span>
+            <div class="btn-group" role="group" aria-label="Filter group">
+              <button class="btn btn-outline-light btn-sm filter-btn" data-filter="">All</button>
+              <button class="btn btn-outline-light btn-sm filter-btn" data-filter="tech">Tech</button>
+              <button class="btn btn-outline-light btn-sm filter-btn" data-filter="music">Music</button>
+              <button class="btn btn-outline-light btn-sm filter-btn" data-filter="sports">Sports</button>
+              <button class="btn btn-outline-light btn-sm filter-btn" data-filter="culture">Culture</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="eventGrid" class="row g-4">
+          <!-- Event card template repeated -->
+          <div class="col-12 col-sm-6 col-lg-4" data-category="tech" data-title="Dhaka JS Summit">
+            <div class="card card-premium h-100">
+              <img class="card-img-top" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1600&auto=format&fit=crop" alt="Tech event">
+              <div class="card-body">
+                <span class="badge text-bg-primary mb-2">Tech</span>
+                <h5 class="card-title">Dhaka JS Summit</h5>
+                <p class="card-text text-secondary">Talks, workshops and live coding with top engineers.</p>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-secondary"><i class="bi bi-geo-alt me-1"></i>Dhaka</small>
+                  <small class="text-secondary"><i class="bi bi-calendar-event me-1"></i>Oct 12</small>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 d-flex gap-2">
+                <button class="btn btn-sm btn-warning flex-fill"><i class="bi bi-ticket-detailed me-1"></i>Get Ticket</button>
+                <button class="btn btn-sm btn-outline-light"><i class="bi bi-share"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4" data-category="music" data-title="Utshob Music Night">
+            <div class="card card-premium h-100">
+              <img class="card-img-top" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1600&auto=format&fit=crop" alt="Music event">
+              <div class="card-body">
+                <span class="badge text-bg-danger mb-2">Music</span>
+                <h5 class="card-title">Utshob Music Night</h5>
+                <p class="card-text text-secondary">Live bands, DJs and a breathtaking light show.</p>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-secondary"><i class="bi bi-geo-alt me-1"></i>Chattogram</small>
+                  <small class="text-secondary"><i class="bi bi-calendar-event me-1"></i>Nov 4</small>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 d-flex gap-2">
+                <button class="btn btn-sm btn-warning flex-fill"><i class="bi bi-ticket-detailed me-1"></i>Get Ticket</button>
+                <button class="btn btn-sm btn-outline-light"><i class="bi bi-share"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4" data-category="sports" data-title="Marathon 10K">
+            <div class="card card-premium h-100">
+              <img class="card-img-top" src="marth.webp" alt="Sports event">
+              <div class="card-body">
+                <span class="badge text-bg-success mb-2">Sports</span>
+                <h5 class="card-title">Marathon 10K</h5>
+                <p class="card-text text-secondary">Run together for a cause with city-wide cheer squads.</p>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-secondary"><i class="bi bi-geo-alt me-1"></i>Sylhet</small>
+                  <small class="text-secondary"><i class="bi bi-calendar-event me-1"></i>Sep 28</small>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 d-flex gap-2">
+                <button class="btn btn-sm btn-warning flex-fill"><i class="bi bi-ticket-detailed me-1"></i>Get Ticket</button>
+                <button class="btn btn-sm btn-outline-light"><i class="bi bi-share"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4" data-category="culture" data-title="Pohela Boishakh Fair">
+            <div class="card card-premium h-100">
+              <img class="card-img-top" src="pohela.webp" alt="Culture event">
+              <div class="card-body">
+                <span class="badge text-bg-info mb-2">Culture</span>
+                <h5 class="card-title">Pohela Boishakh Fair</h5>
+                <p class="card-text text-secondary">Traditional art, food stalls and cultural performances.</p>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-secondary"><i class="bi bi-geo-alt me-1"></i>Rajshahi</small>
+                  <small class="text-secondary"><i class="bi bi-calendar-event me-1"></i>Apr 14</small>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 d-flex gap-2">
+                <button class="btn btn-sm btn-warning flex-fill"><i class="bi bi-ticket-detailed me-1"></i>Get Ticket</button>
+                <button class="btn btn-sm btn-outline-light"><i class="bi bi-share"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VENUES -->
+    <section id="venues" class="section">
+      <div class="container">
+        <div class="row align-items-center mb-4">
+          <div class="col-md-8">
+            <h2 class="section-title">Venues you’ll love</h2>
+            <p class="text-secondary">Premium spaces with capacity, amenities and great accessibility.</p>
+          </div>
+          <div class="col-md-4 text-md-end">
+            <a href="#contact" class="btn btn-outline-light"><i class="bi bi-building me-2"></i>List your venue</a>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card card-premium h-100 p-4">
+              <div class="d-flex align-items-start gap-3">
+                <i class="bi bi-buildings fs-2"></i>
+                <div>
+                  <h5>Bangla Motor Hall</h5>
+                  <p class="text-secondary small mb-2">Capacity 1200 · Parking · Green rooms</p>
+                  <span class="badge text-bg-secondary"><i class="bi bi-geo-alt me-1"></i>Dhaka</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-premium h-100 p-4">
+              <div class="d-flex align-items-start gap-3">
+                <i class="bi bi-door-open fs-2"></i>
+                <div>
+                  <h5>Toma Plaza Center</h5>
+                  <p class="text-secondary small mb-2">Capacity 600 · Outdoor stage · Catering</p>
+                  <span class="badge text-bg-secondary"><i class="bi bi-geo-alt me-1"></i>Khulna</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-premium h-100 p-4">
+              <div class="d-flex align-items-start gap-3">
+                <i class="bi bi-shop fs-2"></i>
+                <div>
+                  <h5>Abedin Market Hall</h5>
+                  <p class="text-secondary small mb-2">Capacity 350 · AV equipment · VIP lounge</p>
+                  <span class="badge text-bg-secondary"><i class="bi bi-geo-alt me-1"></i>Barishal</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORGANIZERS -->
+    <section id="organizers" class="section">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col">
+            <h2 class="section-title">Top organizers</h2>
+            <p class="text-secondary">Trusted hosts making magic on Utshob.</p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-sm-6 col-lg-3"><div class="card card-premium p-4 h-100 text-center"><i class="bi bi-patch-check fs-2 mb-2 text-warning"></i><h6>Coke Studios</h6><p class="text-secondary small mb-0">Music & Culture</p></div></div>
+          <div class="col-sm-6 col-lg-3"><div class="card card-premium p-4 h-100 text-center"><i class="bi bi-patch-check fs-2 mb-2 text-warning"></i><h6>Programming Hero</h6><p class="text-secondary small mb-0">Tech & Startups</p></div></div>
+          <div class="col-sm-6 col-lg-3"><div class="card card-premium p-4 h-100 text-center"><i class="bi bi-patch-check fs-2 mb-2 text-warning"></i><h6>T-Sports</h6><p class="text-secondary small mb-0">Sports & Wellness</p></div></div>
+          <div class="col-sm-6 col-lg-3"><div class="card card-premium p-4 h-100 text-center"><i class="bi bi-patch-check fs-2 mb-2 text-warning"></i><h6>Polton Lala</h6><p class="text-secondary small mb-0">Heritage & Art</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="row mb-4"><div class="col"><h2 class="section-title">Simple, transparent pricing</h2><p class="text-secondary">Choose a plan for your scale. No hidden fees.</p></div></div>
+        <div class="row g-4 align-items-stretch">
+          <div class="col-md-4">
+            <div class="card card-premium h-100 p-4">
+              <h5>Starter</h5>
+              <div class="display-6 fw-bold">FREE</div>
+              <ul class="mt-3 text-secondary small">
+                <li>Up to 2 events / month</li>
+                <li>Basic ticketing</li>
+                <li>Email support</li>
+              </ul>
+              <button class="btn btn-outline-light mt-auto">Get started</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-premium h-100 p-4 border border-warning">
+              <h5>Pro</h5>
+              <div class="display-6 fw-bold">৳ 1,990<span class="fs-6 fw-normal text-secondary">/mo</span></div>
+              <ul class="mt-3 text-secondary small">
+                <li>Unlimited events</li>
+                <li>Coupons & promo codes</li>
+                <li>Priority support</li>
+              </ul>
+              <button class="btn btn-warning mt-auto">Upgrade</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-premium h-100 p-4">
+              <h5>Enterprise</h5>
+              <div class="display-6 fw-bold">Custom</div>
+              <ul class="mt-3 text-secondary small">
+                <li>Dedicated manager</li>
+                <li>SLA & advanced analytics</li>
+                <li>On‑site support</li>
+              </ul>
+              <button class="btn btn-outline-light mt-auto">Contact sales</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container">
+        <div class="row mb-4"><div class="col"><h2 class="section-title">Frequently asked questions</h2></div></div>
+        <div class="accordion" id="faqAcc">
+          <div class="accordion-item bg-transparent border rounded-3 border-secondary-subtle">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#fq1">How does ticketing work?</button></h2>
+            <div id="fq1" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body text-secondary">Set up tiers, availability windows and per‑user limits. Attendees receive secure QR codes for check‑in.</div></div>
+          </div>
+          <div class="accordion-item bg-transparent border rounded-3 border-secondary-subtle mt-2">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#fq2">Do you support refunds?</button></h2>
+            <div id="fq2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body text-secondary">Yes, organizers can issue partial or full refunds based on their policy and payment gateway rules.</div></div>
+          </div>
+          <div class="accordion-item bg-transparent border rounded-3 border-secondary-subtle mt-2">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#fq3">Is there an organizer mobile app?</button></h2>
+            <div id="fq3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body text-secondary">A mobile companion app for check‑in and live stats is coming soon.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <h2 class="section-title">Let’s build your next experience</h2>
+            <p class="text-secondary">Send a message and our team will get back in a flash.</p>
+            <form class="card card-premium p-4" id="contactForm">
+              <div class="row g-3">
+                <div class="col-md-6"><label class="form-label">Name</label><input class="form-control" required></div>
+                <div class="col-md-6"><label class="form-label">Email</label><input type="email" class="form-control" required></div>
+                <div class="col-12"><label class="form-label">Message</label><textarea class="form-control" rows="4" required></textarea></div>
+                <div class="col-12 d-grid d-md-flex gap-3">
+                  <button class="btn btn-warning" type="submit"><i class="bi bi-send me-2"></i>Send</button>
+                  <button class="btn btn-outline-light" type="reset">Clear</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-6">
+            <div class="card card-premium p-4 h-100">
+              <h5 class="mb-3"><i class="bi bi-headset me-2"></i>Support</h5>
+              <p class="text-secondary">We’re available 7 days a week to help with onboarding, venue setup, and ticketing strategy.</p>
+              <ul class="list-unstyled">
+                <li class="mb-2"><i class="bi bi-envelope me-2"></i>support@utshob.app</li>
+                <li class="mb-2"><i class="bi bi-telephone me-2"></i>+880 1977987420</li>
+                <li class="mb-2"><i class="bi bi-telephone me-2"></i>+880 1829494993</li>
+                <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Dhaka, Bangladesh</li>
+              </ul>
+              <div class="mt-auto">
+                <div class="d-flex gap-2">
+                  <a class="btn btn-outline-light" href="#"><i class="bi bi-facebook"></i></a>
+                  <a class="btn btn-outline-light" href="#"><i class="bi bi-instagram"></i></a>
+                  <a class="btn btn-outline-light" href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a class="btn btn-outline-light" href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="bottom" class="pt-5 pb-4">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-sm-6 col-lg-3">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-stars text-warning fs-4"></i>
+            <strong class="fs-5">Utshob</strong>
+          </div>
+          <p class="text-secondary">Premium platform for events across Bangladesh and beyond.</p>
+          <div class="d-flex gap-2">
+            <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-apple"></i></a>
+            <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-google-play"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6 class="mb-3">Product</h6>
+          <ul class="list-unstyled">
+            <li><a class="footer-link" href="#features">Features</a></li>
+            <li><a class="footer-link" href="#pricing">Pricing</a></li>
+            <li><a class="footer-link" href="#events">Events</a></li>
+            <li><a class="footer-link" href="#venues">Venues</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6 class="mb-3">Company</h6>
+          <ul class="list-unstyled">
+            <li><a class="footer-link" href="#contact">Contact</a></li>
+            <li><a class="footer-link" href="#faq">Help Center</a></li>
+            <li><a class="footer-link" href="#">Careers</a></li>
+            <li><a class="footer-link" href="#">Press</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-5">
+          <h6 class="mb-3">Stay in the loop</h6>
+          <form class="row g-2">
+            <div class="col-8 col-md-9"><input type="email" class="form-control" placeholder="Email address"></div>
+            <div class="col-4 col-md-3 d-grid"><button class="btn btn-warning" type="button">Subscribe</button></div>
+          </form>
+          <small class="d-block mt-2 text-secondary">By subscribing, you agree to our <a href="#" class="footer-link">Terms</a> and <a href="#" class="footer-link">Privacy</a>.</small>
+        </div>
+      </div>
+      <hr class="border-secondary-subtle my-4">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <small class="text-secondary">© <span id="y"></span> Utshob. All rights reserved. Developed by NEXZEN Studios.</small>
+        <div class="d-flex gap-3 small">
+          <a class="footer-link" href="#">Terms</a>
+          <a class="footer-link" href="#">Privacy</a>
+          <a class="footer-link" href="#top">Back to top</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Action Buttons (Meet & Calendar) -->
+  <div class="fab-group">
+    <button class="btn fab" type="button" data-bs-toggle="tooltip" data-bs-title="Schedule a meet" id="btnMeet"><i class="bi bi-camera-video-fill fs-5"></i></button>
+    <button class="btn fab" type="button" data-bs-toggle="tooltip" data-bs-title="Open calendar" id="btnCalendar"><i class="bi bi-calendar2-event fs-5"></i></button>
+  </div>
+
+  <!-- Scroll top/bottom -->
+  <div class="scroll-stack">
+    <button class="btn scroll-btn" id="toTop" aria-label="Back to top"><i class="bi bi-chevron-up"></i></button>
+    <button class="btn scroll-btn" id="toBottom" aria-label="Jump to bottom"><i class="bi bi-chevron-down"></i></button>
+  </div>
+
+  <!-- Meet Modal -->
+  <div class="modal fade" id="meetModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark border-secondary-subtle">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-camera-video me-2"></i>Schedule a Meet</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="meetForm">
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-12"><label class="form-label">Topic</label><input class="form-control" id="meetTopic" required></div>
+              <div class="col-md-6"><label class="form-label">Date</label><input type="date" class="form-control" id="meetDate" required></div>
+              <div class="col-md-6"><label class="form-label">Time</label><input type="time" class="form-control" id="meetTime" required></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-light" type="button" data-bs-dismiss="modal">Cancel</button>
+            <button class="btn btn-warning" type="submit">Schedule</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar Modal -->
+  <div class="modal fade" id="calendarModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark border-secondary-subtle">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-calendar2-event me-2"></i>Calendar</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-7"><label class="form-label">Pick a date</label><input type="date" class="form-control" id="calDate"></div>
+            <div class="col-5"><label class="form-label">Category</label><select class="form-select" id="calCat"><option value="">All</option><option value="tech">Tech</option><option value="music">Music</option><option value="sports">Sports</option><option value="culture">Culture</option></select></div>
+          </div>
+          <div class="mt-3 small text-secondary">Showing events that match your filters</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-warning">Add Reminder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (feedback) -->
+  <div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 1080">
+    <div id="mainToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"><i class="bi bi-check2-circle me-2"></i><span id="toastMsg">Action completed.</span></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Set year in footer
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Tooltips
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
+
+    // Scrollspy (nav spy)
+    const scrollSpy = new bootstrap.ScrollSpy(document.body, { target: '#mainNav', offset: 100 });
+
+    // Back to top / bottom
+    const toTop = document.getElementById('toTop');
+    const toBottom = document.getElementById('toBottom');
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    toBottom.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+    // Floating buttons → open modals
+    document.getElementById('btnMeet').addEventListener('click', () => new bootstrap.Modal('#meetModal').show());
+    document.getElementById('btnCalendar').addEventListener('click', () => new bootstrap.Modal('#calendarModal').show());
+
+    // Demo meet form → toast
+    const meetForm = document.getElementById('meetForm');
+    meetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const topic = document.getElementById('meetTopic').value || 'Meeting';
+      document.getElementById('toastMsg').textContent = `Scheduled: ${topic}`;
+      new bootstrap.Toast('#mainToast').show();
+      bootstrap.Modal.getInstance(document.getElementById('meetModal')).hide();
+      meetForm.reset();
+    });
+
+    // Simple in-page search & filter for demo cards
+    const eventGrid = document.getElementById('eventGrid');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const applyFilters = () => {
+      const q1 = (document.getElementById('navSearch').value || '').toLowerCase();
+      const q2 = (document.getElementById('heroQuery').value || '').toLowerCase();
+      const q = q1 || q2;
+      const active = document.querySelector('.filter-btn.active');
+      const cat = active ? active.dataset.filter : '';
+
+      [...eventGrid.children].forEach(col => {
+        const title = (col.dataset.title || '').toLowerCase();
+        const category = (col.dataset.category || '').toLowerCase();
+        const matchText = !q || title.includes(q);
+        const matchCat = !cat || category === cat;
+        col.style.display = (matchText && matchCat) ? '' : 'none';
+      });
+    };
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+      });
+    });
+
+    document.getElementById('btnNavSearch').addEventListener('click', applyFilters);
+    document.getElementById('btnHeroSearch').addEventListener('click', applyFilters);
+
+    // Improve navbar toggler icon visibility on dark bg
+    const toggler = document.querySelector('.navbar-toggler');
+    if (toggler && !toggler.innerHTML.trim()) {
+      toggler.innerHTML = '<i class="bi bi-list fs-2"></i>';
+    }
+  </script>
+</body>
+</html>
